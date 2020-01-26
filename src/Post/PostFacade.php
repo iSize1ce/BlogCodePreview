@@ -15,4 +15,12 @@ class PostFacade
     {
         return $this->postRepository->getById($id);
     }
+
+    public function update(Post $post): void
+    {
+    }
+
+    public function insert(Post $post): void
+    {
+    }
 }

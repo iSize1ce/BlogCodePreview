@@ -23,6 +23,14 @@ class PostRepository
         return $this->createFromDbRow($dbRow);
     }
 
+    public function update(Post $post): void
+    {
+    }
+
+    public function insert(Post $post): void
+    {
+    }
+
     private function createFromDbRow(array $dbRow)
     {
         $post = new Post($dbRow['title'], $dbRow['text']);
