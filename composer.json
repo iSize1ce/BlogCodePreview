@@ -5,6 +5,8 @@
     }
   },
   "require": {
-    "doctrine/dbal": "^2.10"
+    "doctrine/dbal": "^2.10",
+    "slim/slim": "^4.4",
+    "slim/psr7": "^1.0"
   }
 }
