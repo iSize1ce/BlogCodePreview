@@ -25,7 +25,7 @@ $app->get('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) 
     return new JsonResponse([
         'id' => $post->getId(),
         'title' => $post->getTitle(),
-        'text' => $post->getText()
+        'content' => $post->getContent()
     ]);
 });
 
@@ -49,7 +49,7 @@ $app->put('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) 
         $post->setTitle($body['title']);
     }
     if (array_key_exists('text', $body)) {
-        $post->setText($body['text']);
+        $post->setContent($body['text']);
     }
 
     $postFacade->update($post);
@@ -57,7 +57,7 @@ $app->put('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) 
     return new JsonResponse([
         'id' => $post->getId(),
         'title' => $post->getTitle(),
-        'text' => $post->getText()
+        'text' => $post->getContent()
     ]);
 });
 

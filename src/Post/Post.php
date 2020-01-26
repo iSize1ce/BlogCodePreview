@@ -6,7 +6,7 @@ class Post
 {
     private int $id;
     private string $title;
-    private string $text;
+    private string $content;
 
     public function __construct(string $title, string $text)
     {
@@ -32,13 +32,13 @@ class Post
         $this->title = $title;
     }
 
-    public function getText(): string
+    public function getContent(): string
     {
-        return $this->text;
+        return $this->content;
     }
 
-    public function setText(string $text): void
+    public function setContent(string $content): void
     {
-        $this->text = $text;
+        $this->content = $content;
     }
 }
