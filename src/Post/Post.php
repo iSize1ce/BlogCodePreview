@@ -8,8 +8,10 @@ class Post
     private string $title;
     private string $content;
 
-    public function __construct(string $title, string $text)
+    public function __construct(string $title, string $content)
     {
+        $this->title = $title;
+        $this->content = $content;
     }
 
     public function getId(): int
