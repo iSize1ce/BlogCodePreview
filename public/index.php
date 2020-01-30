@@ -11,7 +11,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->get('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) {
+$app->get('/posts/{id:\d}', static function (Request $request, PostFacade $postFacade) {
     $id = (int)$request->getAttribute('id');
     if ($id <= 0) {
         throw new HttpBadRequestException($request);
@@ -29,10 +29,10 @@ $app->get('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) 
     ]);
 });
 
-$app->post('/posts', function (Request $request, PostFacade $postFacade) {
+$app->post('/posts', static function (Request $request, PostFacade $postFacade) {
 });
 
-$app->put('/posts/{id:\d}', function (Request $request, PostFacade $postFacade) {
+$app->put('/posts/{id:\d}', static function (Request $request, PostFacade $postFacade) {
     $id = (int)$request->getAttribute('id');
     if ($id <= 0) {
         throw new HttpBadRequestException($request);
