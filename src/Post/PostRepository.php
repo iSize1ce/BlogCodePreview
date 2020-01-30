@@ -48,7 +48,7 @@ SQL;
 
     private function createFromDbRow(array $dbRow): Post
     {
-        $post = new Post($dbRow['title'], $dbRow['text']);
+        $post = new Post($dbRow['title'], $dbRow['content']);
         $post->setId($dbRow['id']);
 
         return $post;
