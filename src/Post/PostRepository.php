@@ -25,10 +25,25 @@ class PostRepository
 
     public function update(Post $post): void
     {
+        $sql = <<<SQL
+UPDATE posts SET
+    title = ?,
+    content = ?
+WHERE id = ?
+SQL;
+
+        $this->dbal->query($sql, [$post->getTitle(), $post->getContent(), $post->getId()]);
     }
 
     public function insert(Post $post): void
     {
+        $sql = <<<SQL
+INSERT INTO posts SET
+    title = ?,
+    content = ?
+SQL;
+
+        $this->dbal->query($sql, [$post->getTitle(), $post->getContent()]);
     }
 
     private function createFromDbRow(array $dbRow): Post

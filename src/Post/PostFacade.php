@@ -18,9 +18,11 @@ class PostFacade
 
     public function update(Post $post): void
     {
+        $this->postRepository->update($post);
     }
 
     public function insert(Post $post): void
     {
+        $this->postRepository->insert($post);
     }
 }
