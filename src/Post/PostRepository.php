@@ -31,7 +31,7 @@ class PostRepository
     {
     }
 
-    private function createFromDbRow(array $dbRow)
+    private function createFromDbRow(array $dbRow): Post
     {
         $post = new Post($dbRow['title'], $dbRow['text']);
         $post->setId($dbRow['id']);
