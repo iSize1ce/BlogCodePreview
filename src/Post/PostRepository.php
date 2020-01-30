@@ -44,6 +44,8 @@ INSERT INTO posts SET
 SQL;
 
         $this->dbal->query($sql, [$post->getTitle(), $post->getContent()]);
+
+        $post->setId((int) $this->dbal->lastInsertId());
     }
 
     private function createFromDbRow(array $dbRow): Post
