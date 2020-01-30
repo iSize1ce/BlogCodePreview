@@ -25,4 +25,9 @@ class PostFacade
     {
         $this->postRepository->insert($post);
     }
+
+    public function delete(int $id): void
+    {
+        $this->postRepository->delete($id);
+    }
 }

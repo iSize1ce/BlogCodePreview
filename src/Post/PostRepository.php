@@ -48,6 +48,11 @@ SQL;
         $post->setId((int) $this->dbal->lastInsertId());
     }
 
+    public function delete(int $id): void
+    {
+        $this->dbal->query('DELETE FROM posts WHERE id = ?', [$id]);
+    }
+
     private function createFromDbRow(array $dbRow): Post
     {
         $post = new Post($dbRow['title'], $dbRow['content']);
