@@ -3,11 +3,11 @@
 namespace Http\Handler;
 
 use Http\Slim\JsonResponse;
+use Post\Post;
 use Post\PostFacade;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
-use Slim\Exception\HttpNotFoundException;
 
 class CreatePostHandler
 {
@@ -20,31 +20,23 @@ class CreatePostHandler
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
-        $id = (int) $request->getAttribute('id');
-        if ($id <= 0) {
+        $body = $request->getParsedBody();
+
+        $title = (string) ($body['title'] ?? null);
+        $content = (string) ($body['content'] ?? null);
+
+        if ($title === '' || $content === '') {
             throw new HttpBadRequestException($request);
         }
 
-        $post = $this->postFacade->getById($id);
-        if ($post === null) {
-            throw new HttpNotFoundException($request);
-        }
+        $post = new Post($title, $content);
 
-        $body = $request->getParsedBody();
-
-        if (array_key_exists('title', $body)) {
-            $post->setTitle($body['title']);
-        }
-        if (array_key_exists('text', $body)) {
-            $post->setContent($body['text']);
-        }
-
-        $this->postFacade->update($post);
+        $this->postFacade->insert($post);
 
         return new JsonResponse([
             'id' => $post->getId(),
             'title' => $post->getTitle(),
-            'text' => $post->getContent(),
+            'content' => $post->getContent(),
         ]);
     }
 }
