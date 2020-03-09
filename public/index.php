@@ -14,13 +14,15 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
     // @todo add DI container
 
-    $app->group('/posts', static function (RouteCollectorProxy $postApp) {
-        $postApp->get('/', GetPostsHandler::class);
-        $postApp->post('/', CreatePostHandler::class);
+    $app->group('/v1', static function (RouteCollectorProxy $v1) {
+        $v1->group('/posts', static function (RouteCollectorProxy $postApp) {
+            $postApp->get('/', GetPostsHandler::class);
+            $postApp->post('/', CreatePostHandler::class);
 
-        $postApp->group('/posts/{id:\d}', static function (RouteCollectorProxy $postByIdApp) {
-            $postByIdApp->get('/', GetPostHandler::class);
-            $postByIdApp->put('/', UpdatePostHandler::class);
+            $postApp->group('/posts/{id:\d}', static function (RouteCollectorProxy $postByIdApp) {
+                $postByIdApp->get('/', GetPostHandler::class);
+                $postByIdApp->put('/', UpdatePostHandler::class);
+            });
         });
     });
 
