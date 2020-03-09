@@ -2,6 +2,7 @@
 
 namespace Http\Handler;
 
+use Http\ResponseTranslator\PostResponseTranslator;
 use Http\Slim\JsonResponse;
 use Post\PostFacade;
 use Psr\Http\Message\ResponseInterface;
@@ -12,10 +13,12 @@ use Slim\Exception\HttpNotFoundException;
 class UpdatePostHandler
 {
     private PostFacade $postFacade;
+    private PostResponseTranslator $postResponseTranslator;
 
-    public function __construct(PostFacade $postFacade)
+    public function __construct(PostFacade $postFacade, PostResponseTranslator $postResponseTranslator)
     {
         $this->postFacade = $postFacade;
+        $this->postResponseTranslator = $postResponseTranslator;
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
@@ -41,10 +44,8 @@ class UpdatePostHandler
 
         $this->postFacade->update($post);
 
-        return new JsonResponse([
-            'id' => $post->getId(),
-            'title' => $post->getTitle(),
-            'text' => $post->getContent(),
-        ]);
+        return new JsonResponse(
+            $this->postResponseTranslator->translate($post)
+        );
     }
 }

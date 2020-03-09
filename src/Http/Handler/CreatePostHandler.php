@@ -2,6 +2,7 @@
 
 namespace Http\Handler;
 
+use Http\ResponseTranslator\PostResponseTranslator;
 use Http\Slim\JsonResponse;
 use Post\Post;
 use Post\PostFacade;
@@ -12,10 +13,12 @@ use Slim\Exception\HttpBadRequestException;
 class CreatePostHandler
 {
     private PostFacade $postFacade;
+    private PostResponseTranslator $postResponseTranslator;
 
-    public function __construct(PostFacade $postFacade)
+    public function __construct(PostFacade $postFacade, PostResponseTranslator $postResponseTranslator)
     {
         $this->postFacade = $postFacade;
+        $this->postResponseTranslator = $postResponseTranslator;
     }
 
     public function __invoke(ServerRequestInterface $request): ResponseInterface
@@ -33,10 +36,8 @@ class CreatePostHandler
 
         $this->postFacade->insert($post);
 
-        return new JsonResponse([
-            'id' => $post->getId(),
-            'title' => $post->getTitle(),
-            'content' => $post->getContent(),
-        ]);
+        return new JsonResponse(
+            $this->postResponseTranslator->translate($post)
+        );
     }
 }
