@@ -35,6 +35,13 @@ class UpdatePostHandler
 
         $body = $request->getParsedBody();
 
+        if ( ! array_key_exists('title', $body) && ! array_key_exists('text', $body)) {
+            return new JsonResponse(
+                $this->postResponseTranslator->translate($post),
+                304
+            );
+        }
+
         if (array_key_exists('title', $body)) {
             $post->setTitle($body['title']);
         }
