@@ -37,7 +37,8 @@ class CreatePostHandler
         $this->postFacade->insert($post);
 
         return new JsonResponse(
-            $this->postResponseTranslator->translate($post)
+            $this->postResponseTranslator->translate($post),
+            201
         );
     }
 }
