@@ -53,6 +53,43 @@ SQL;
         $this->dbal->query('DELETE FROM posts WHERE id = ?', [$id]);
     }
 
+    /**
+     * @return Post[]
+     */
+    public function search(PostSearchTerms $terms): array
+    {
+        $query = $this->dbal->createQueryBuilder()
+            ->select('*')
+            ->from('posts');
+
+        $titleTerm = $terms->getTitle();
+        if ($titleTerm !== null) {
+            if ($titleTerm->isTypeLike()) {
+                $query->andWhere('title LIKE ?', $titleTerm);
+
+            } elseif ($titleTerm->isTypeEquals()) {
+                $query->andWhere('title = ?', $titleTerm);
+            }
+        }
+
+        $contentTerm = $terms->getContent();
+        if ($contentTerm !== null) {
+            if ($contentTerm->isTypeLike()) {
+                $query->andWhere('content LIKE ?', $contentTerm);
+
+            } elseif ($contentTerm->isTypeEquals()) {
+                $query->andWhere('content = ?', $contentTerm);
+            }
+        }
+
+        $result = [];
+        foreach ($query->execute()->fetchAll() as $dbRow) {
+            $result[] = $this->createFromDbRow($dbRow);
+        }
+
+        return $result;
+    }
+
     private function createFromDbRow(array $dbRow): Post
     {
         $post = new Post($dbRow['title'], $dbRow['content']);

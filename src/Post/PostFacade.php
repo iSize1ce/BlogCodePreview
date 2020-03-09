@@ -30,4 +30,12 @@ class PostFacade
     {
         $this->postRepository->delete($id);
     }
+
+    /**
+     * @return Post[]
+     */
+    public function search(PostSearchTerms $param): array
+    {
+        return $this->postRepository->search($param);
+    }
 }
